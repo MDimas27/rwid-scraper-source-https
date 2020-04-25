@@ -1,0 +1,49 @@
+version: '3.6'
+
+services:
+
+  engine:
+    container_name: 'flask-starting'
+    build:
+      context: ./
+      dockerfile: Dockerfile-dev
+    volumes:
+      - './:/usr/src/app'
+    expose:
+      - 5000
+    environment:
+      - FLASK_APP=manage
+      - FLASK_ENV=development
+      - APP_SETTINGS=project.config.DevelopmentConfig
+      - DATABASE_URL=postgres://amazingUser:@amazingPassword!!@engine-db:5432/flask_starting
+      - DATABASE_TEST_URL=postgres://amazingUser:@amazingPassword!!@engine-db:5432/flask_starting_test
+    depends_on:
+      - engine-db
+    restart: on-failure
+
+  engine-db:
+    container_name: 'flask-starting-db'
+    build:
+      context: services/db
+      dockerfile: Dockerfile
+    volumes:
+      - engine-db_volume:/usr/local/pgsql/data
+    ports:
+      - 5435:5432
+    environment:
+      - POSTGRES_USER=amazingUser
+      - POSTGRES_PASSWORD=@amazingPassword!!
+
+  nginx:
+    container_name: 'flask-starting-nginx'
+    build:
+      context: ./services/nginx
+      dockerfile: Dockerfile
+    restart: on-failure
+    ports:
+      - 5000:80
+    depends_on:
+      - engine
+
+volumes:
+  engine-db_volume:
