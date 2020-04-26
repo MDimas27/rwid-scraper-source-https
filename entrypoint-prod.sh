@@ -8,4 +8,4 @@ done
 
 echo "PostgreSQL started"
 flask db upgrade
-gunicorn --bind :5000 manage:app
+gunicorn --bind :9999 manage:app
