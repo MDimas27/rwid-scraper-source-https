@@ -1,2 +1,2 @@
 #!/usr/bin/env bash
-sudo docker exec -it flask-starting /bin/sh
+sudo docker exec -it rwid-scraper-source /bin/sh

@@ -3,7 +3,7 @@ version: '3.6'
 services:
 
   engine:
-    container_name: 'flask-starting'
+    container_name: 'rwid-scraper-source'
     build:
       context: ./
       dockerfile: Dockerfile-prod
@@ -13,13 +13,13 @@ services:
       - FLASK_APP=manage
       - FLASK_ENV=production
       - APP_SETTINGS=project.config.ProductionConfig
-      - DATABASE_URL=postgres://amazingUser:@amazingPassword!!@engine-db:5432/flask_starting
-      - DATABASE_TEST_URL=postgres://amazingUser:@amazingPassword!!@engine-db:5432/flask_starting_test
+      - DATABASE_URL=postgres://amazingUser:@amazingPassword!!@engine-db:5432/rwid_scraper_source
+      - DATABASE_TEST_URL=postgres://amazingUser:@amazingPassword!!@engine-db:5432/rwid_scraper_source_test
     depends_on:
       - engine-db
 
   engine-db:
-    container_name: 'flask-starting-db'
+    container_name: 'rwid-scraper-source-db'
     build:
       context: services/db
       dockerfile: Dockerfile
@@ -30,7 +30,7 @@ services:
       - POSTGRES_PASSWORD=@amazingPassword!!
 
   nginx:
-    container_name: 'flask-starting-nginx'
+    container_name: 'rwid-scraper-source-nginx'
     build:
       context: ./services/nginx
       dockerfile: Dockerfile

@@ -59,3 +59,34 @@ class User(db.Model):
             'username': self.username,
             'password': self.password
         }
+
+
+class Product(db.Model):
+
+    __tablename__ = "products"
+
+    id = db.Column(db.Integer, primary_key=True, autoincrement=True)
+    title = db.Column(db.String)
+    description = db.Column(db.String)
+    stock = db.Column(db.String)
+    url = db.Column(db.String)
+    image = db.Column(db.String)
+    price = db.Column(db.String)
+    category = db.Column(db.String)
+
+    def __init__(self, title, description, stock, url, image, price, category):
+        self.title = title
+        self.description = description
+        self.stock = stock
+        self.url = url
+        self.image = image
+        self.price = price
+        self.category = category
+
+    @classmethod
+    def find_by_id(cls, id):
+        return cls.query.filter_by(id=id).first()
+
+    @classmethod
+    def find_by_url(cls, url):
+        return cls.query.filter_by(url=url).first()

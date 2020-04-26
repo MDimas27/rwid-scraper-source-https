@@ -1,5 +1,5 @@
-# FLASK STARTING
-Thank's for using flask starting
+# rwid scraper source
+Thank's for using rwid scraper source
 
 # Table of contents
 1. Get started on local
@@ -11,11 +11,11 @@ Thank's for using flask starting
 ## GET STARTED:
 #### create database and user on your local: 
 ```
-CREATE DATABASE flask_starting;
-CREATE DATABASE flask_starting_test;
+CREATE DATABASE rwid_scraper_source;
+CREATE DATABASE rwid_scraper_source_test;
 
 CREATE USER amazingUser WITH password '@amazingPassword!!';
-GRANT ALL PRIVILEGES ON database flask_starting to amazingUser;
+GRANT ALL PRIVILEGES ON database rwid_scraper_source to amazingUser;
 ALTER USER amazingUser SUPERUSER;
 ```
 

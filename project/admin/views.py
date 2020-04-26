@@ -1,8 +1,11 @@
+import json
+import ast
+
 from flask import Blueprint, render_template, request, flash, redirect, url_for
 from flask_login import login_user, current_user, login_required, logout_user
 from sqlalchemy.exc import IntegrityError
 
-from project.models.models import User
+from project.models.models import User, Product
 from project import db
 
 
@@ -48,6 +51,60 @@ def logout():
 @login_required
 def dashboard():
     return render_template('dashboard.html')
+
+
+
+# Products ############################################
+@admin_blueprint.route('/admin/products')
+@login_required
+def products():
+    all_product = Product.query.all()
+    return render_template('products.html', products=all_product)
+
+
+
+# Products ############################################
+@admin_blueprint.route('/admin/products_add', methods=['GET', 'POST'])
+@login_required
+def products_add():
+    if request.method == 'POST':
+        try:
+            file = request.files['json']
+            json_data = json.loads(file.read().decode('utf-8'))
+
+            for data in json_data:
+                new_product = Product(
+                    title=data['title'],
+                    description=data['description'],
+                    stock=data['stock'],
+                    url=data['url'],
+                    image=data['image'],
+                    price=data['price'],
+                    category=data['category']
+                )
+                db.session.add(new_product)
+
+            db.session.commit()
+            return redirect(url_for('admin.products'))
+
+        except IntegrityError as e:
+            db.session.rollback()
+            flash('ERROR! {}'.format(e), 'error')
+
+    return render_template('products_add.html')
+
+
+@admin_blueprint.route('/admin/products_delete', methods=['GET', 'POST'])
+@login_required
+def products_delete():
+    try:
+        db.session.query(Product).delete()
+        db.session.commit()
+        return redirect(url_for('admin.products'))
+
+    except IntegrityError as e:
+        db.session.rollback()
+        flash('ERROR! {}'.format(e), 'error')
 
 
 # USERS ############################################
@@ -117,3 +174,5 @@ def user_edit(user_id):
             flash('ERROR! username ({}) already exists.'.format(user.username), 'error')
 
     return render_template('user_edit.html', user=user)
+
+

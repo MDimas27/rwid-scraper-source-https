@@ -16,6 +16,7 @@ migrate = Migrate()
 def create_app(script_info=None):
     from project.models import models
     from project.admin.views import admin_blueprint
+    from project.home.views import home_blueprint
 
     # instantiate the app
     app = Flask(__name__, static_url_path='')
@@ -38,8 +39,9 @@ def create_app(script_info=None):
     def load_user(user_id):
         return models.User.query.filter(models.User.id == int(user_id)).first()
 
-    # register the admin blueprints
+    # register the blueprints
     app.register_blueprint(admin_blueprint)
+    app.register_blueprint(home_blueprint)
 
     @app.route('/')
     def index():
