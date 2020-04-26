@@ -12,7 +12,7 @@ from project import db
 admin_blueprint = Blueprint('admin', __name__, template_folder='templates')
 
 
-@admin_blueprint.route('/admin/login', methods=['GET', 'POST'])
+@admin_blueprint.route('/login', methods=['GET', 'POST'])
 def login():
     if request.method == 'POST':
         username = request.form.get('username')
@@ -22,13 +22,17 @@ def login():
             flash('ERROR! user not found.', 'error')
             return redirect(url_for('admin.dashboard'))
 
+
         if User.verify_hash(password, current_user.password):
             current_user.authenticated = True
             db.session.add(current_user)
             db.session.commit()
             login_user(current_user)
+            if current_user.role == 'admin':
+                return redirect(url_for('admin.dashboard'))
+            else:
+                return redirect(url_for('home.home'))
 
-            return redirect(url_for('admin.dashboard'))
         else:
             db.session.rollback()
             flash('ERROR! Incorrect login credentials.', 'error')
@@ -36,7 +40,7 @@ def login():
     return render_template('login.html')
 
 
-@admin_blueprint.route('/admin/logout')
+@admin_blueprint.route('/logout')
 @login_required
 def logout():
     user = current_user
@@ -50,6 +54,9 @@ def logout():
 @admin_blueprint.route('/admin')
 @login_required
 def dashboard():
+    if current_user.role != 'admin':
+        return redirect(url_for('home.home'))
+
     return render_template('dashboard.html')
 
 
@@ -58,6 +65,9 @@ def dashboard():
 @admin_blueprint.route('/admin/products')
 @login_required
 def products():
+    if current_user.role != 'admin':
+        return redirect(url_for('home.home'))
+
     all_product = Product.query.all()
     return render_template('products.html', products=all_product)
 
@@ -67,6 +77,9 @@ def products():
 @admin_blueprint.route('/admin/products_add', methods=['GET', 'POST'])
 @login_required
 def products_add():
+    if current_user.role != 'admin':
+        return redirect(url_for('home.home'))
+
     if request.method == 'POST':
         try:
             file = request.files['json']
@@ -97,6 +110,9 @@ def products_add():
 @admin_blueprint.route('/admin/products_delete', methods=['GET', 'POST'])
 @login_required
 def products_delete():
+    if current_user.role != 'admin':
+        return redirect(url_for('home.home'))
+
     try:
         db.session.query(Product).delete()
         db.session.commit()
@@ -111,6 +127,9 @@ def products_delete():
 @admin_blueprint.route('/admin/users')
 @login_required
 def users():
+    if current_user.role != 'admin':
+        return redirect(url_for('home.home'))
+
     all_user = User.query.all()
     return render_template('users.html', users=all_user)
 
@@ -118,6 +137,9 @@ def users():
 @admin_blueprint.route('/admin/user_add', methods=['GET', 'POST'])
 @login_required
 def user_add():
+    if current_user.role != 'admin':
+        return redirect(url_for('home.home'))
+
     if request.method == 'POST':
         try:
             username = request.form.get('username')
@@ -142,6 +164,9 @@ def user_add():
 @admin_blueprint.route('/admin/user_delete/<user_id>')
 @login_required
 def user_delete(user_id):
+    if current_user.role != 'admin':
+        return redirect(url_for('home.home'))
+
     user = User.find_by_id(user_id)
     db.session.delete(user)
     db.session.commit()
@@ -151,6 +176,9 @@ def user_delete(user_id):
 @admin_blueprint.route('/admin/user_edit/<user_id>', methods=['GET', 'POST'])
 @login_required
 def user_edit(user_id):
+    if current_user.role != 'admin':
+        return redirect(url_for('home.home'))
+
     user = User.find_by_id(user_id)
     if request.method == 'POST':
         try:

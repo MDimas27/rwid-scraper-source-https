@@ -33,11 +33,6 @@ depends_on = None
 
 credentials = [
     {
-        'role': 'user',
-        'username': 'user',
-        'password': '$pbkdf2-sha256$29000$DmFs7X0PAcC41zonRCjFmA$x7kmrgRS0yZ0tE/y3kjt36szOc0TgEtzTCozH8hfg4k', # user12345
-    },
-    {
         'role': 'admin',
         'username': 'admin',
         'password': '$pbkdf2-sha256$29000$O0fIWUuJsVYKAeB8b805Zw$9Nru6otB88XTl4BK9jyuKV1frUKMxj9Euz9Jv1NacGo', # admin12345

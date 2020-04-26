@@ -43,10 +43,6 @@ def create_app(script_info=None):
     app.register_blueprint(admin_blueprint)
     app.register_blueprint(home_blueprint)
 
-    @app.route('/')
-    def index():
-        return 'test'
-
     # shell context for flask cli
     @app.shell_context_processor
     def ctx():
