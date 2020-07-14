@@ -14,9 +14,9 @@ Thank's for using rwid scraper source
 CREATE DATABASE rwid_scraper_source;
 CREATE DATABASE rwid_scraper_source_test;
 
-CREATE USER amazingUser WITH password '@amazingPassword!!';
-GRANT ALL PRIVILEGES ON database rwid_scraper_source to amazingUser;
-ALTER USER amazingUser SUPERUSER;
+CREATE USER amazinguser WITH password 'amazingPassword';
+GRANT ALL PRIVILEGES ON database rwid_scraper_source to amazinguser;
+ALTER USER amazinguser SUPERUSER;
 ```
 
 
@@ -29,7 +29,7 @@ $ pip install -r requirements.txt
 
 #### upgrade db for init data:
 ```
-$ source ./scripts/dev_env.sh
+$ source ./scripts/env_dev.sh
 $ flask db upgrade
 ```
 

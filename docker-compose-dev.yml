@@ -15,8 +15,8 @@ services:
       - FLASK_APP=manage
       - FLASK_ENV=development
       - APP_SETTINGS=project.config.DevelopmentConfig
-      - DATABASE_URL=postgres://amazingUser:@amazingPassword!!@engine-db:5432/rwid_scraper_source
-      - DATABASE_TEST_URL=postgres://amazingUser:@amazingPassword!!@engine-db:5432/rwid_scraper_source_test
+      - DATABASE_URL=postgres://amazinguser:amazingPassword@engine-db:5432/rwid_scraper_source
+      - DATABASE_TEST_URL=postgres://amazinguser:amazingPassword@engine-db:5432/rwid_scraper_source_test
     depends_on:
       - engine-db
     restart: on-failure
@@ -31,14 +31,14 @@ services:
     ports:
       - 5435:5432
     environment:
-      - POSTGRES_USER=amazingUser
-      - POSTGRES_PASSWORD=@amazingPassword!!
+      - POSTGRES_USER=amazinguser
+      - POSTGRES_PASSWORD=amazingPassword
 
   nginx:
     container_name: 'rwid-scraper-source-nginx'
     build:
       context: ./services/nginx
-      dockerfile: Dockerfile
+      dockerfile: Dockerfile_dev
     restart: on-failure
     ports:
       - 5000:80
