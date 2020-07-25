@@ -1,2 +1,2 @@
-source ./scripts/dev_env.sh
+source ./scripts/env_dev.sh
 flask run
