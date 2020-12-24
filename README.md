@@ -8,7 +8,21 @@ Thank's for using rwid scraper source
 
 <hr>
 
-## GET STARTED:
+## GET STARTED WINDOWS 10:
+#### Download PostgreSQL Terbaru (Versi 13, pada Desember 2020)
+Ikuti petunjuk instalasi di
+https://www.postgresql.org/download/windows/
+
+Download PgAdmin 4 di https://www.pgadmin.org/download/pgadmin-4-windows/
+
+#### Buat VirtualEnvironment 
+Ikuti video
+
+#### Instalasi semua package yang dibutuhkan dengan `pip`
+#### Jalankan server
+`scripts\run.bat`
+
+## GET STARTED LINUX:
 #### create database and user on your local: 
 ```
 CREATE DATABASE rwid_scraper_source;
